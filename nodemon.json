@@ -1,0 +1,8 @@
+{
+    "events": {
+        "start": "cls"
+    },
+    "ignore": [
+        "./test/**.*"
+    ]
+}
