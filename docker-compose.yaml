@@ -1,0 +1,28 @@
+services:
+    db:
+        container_name: postgres
+        image: postgres
+        environment:
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: root
+            POSTGRES_DB: shopper
+        ports:
+            - "5432:5432"
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+
+    app:
+        build: .
+        ports:
+            - "3000:3000"
+        environment:
+            DATABASE_URL: postgresql://root:root@db:5432/shopper
+            GEMINI_API_KEY: ${GEMINI_API_KEY}
+        volumes:
+            - ./:/usr/src/app
+            - /usr/src/app/node_modules
+        depends_on:
+            - db
+
+volumes:
+    pgdata:

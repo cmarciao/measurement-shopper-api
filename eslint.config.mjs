@@ -4,8 +4,15 @@ import tseslint from "typescript-eslint";
 
 
 export default [
-  {files: ["**/*.{js,mjs,cjs,ts}"]},
-  {languageOptions: { globals: globals.node }},
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
+    { files: ["**/*.{js,mjs,cjs,ts}"] },
+    { languageOptions: { globals: globals.node } },
+    pluginJs.configs.recommended,
+    ...tseslint.configs.recommended,
+    {
+        rules: {
+            indent: ['error', 4, { SwitchCase: 1 }],
+            semi: ['error', 'always'],
+            quotes: ['error', 'single'],
+        },
+    },
 ];

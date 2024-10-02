@@ -1,0 +1,23 @@
+import { ConfirmMeasure } from './application/use-cases/confirm-measure';
+import { ListMeasuresByCustomerCode } from './application/use-cases/list-measures-by-customer-code';
+import { UploadMeasure } from './application/use-cases/upload-measure';
+import { env } from './config/env';
+import { MeasureController } from './infra/controllers/measure-controller';
+import { Registry } from './infra/di';
+import { FileSystem } from './infra/files/file-system';
+import { GeminiAiGateway } from './infra/gateways/gemini-ai-gateway';
+import { ExpressAdapter } from './infra/http/http-server';
+import { MeasureRepository } from './infra/repositories/measure-repository';
+import { PrismaClient } from '@prisma/client';
+
+const httpServer = new ExpressAdapter();
+Registry.getInstance().provide('http-server', httpServer);
+Registry.getInstance().provide('gemini-ai-gateway', new GeminiAiGateway(env.GEMINI_API_KEY));
+Registry.getInstance().provide('prisma-client', new PrismaClient());
+Registry.getInstance().provide('file-system', new FileSystem());
+Registry.getInstance().provide('measureRepository', new MeasureRepository());
+Registry.getInstance().provide('confirm-measure', new ConfirmMeasure());
+Registry.getInstance().provide('upload-measure', new UploadMeasure());
+Registry.getInstance().provide('list-measures-by-customer-code', new ListMeasuresByCustomerCode());
+Registry.getInstance().provide('measure-controller', new MeasureController());
+httpServer.listen(3000, () => console.log('Server is running at http://localhost:3000. 🚀'));
