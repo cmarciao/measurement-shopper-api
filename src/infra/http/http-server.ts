@@ -33,7 +33,7 @@ export class ExpressAdapter implements HttpServer {
                     });
                 }
                 console.log(e);
-                res.status(422).json({ message: e.message });
+                res.status(500).json({ message: 'Internal server error' });
             }
         });
     }
